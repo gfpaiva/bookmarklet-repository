@@ -13,4 +13,6 @@ firebase.initializeApp(config);
 
 const db = firebase.database().ref('/bookmarklets');
 
+export const auth = firebase.auth();
+
 export default db;

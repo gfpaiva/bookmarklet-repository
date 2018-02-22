@@ -5,6 +5,7 @@ body {
 	width: 100%;
 	height: 100%;
 	font-family: 'Roboto', sans-serif;
+	position: relative;
 }
 
 .container {
@@ -26,4 +27,15 @@ pre,
 
 a {
 	text-decoration: none
+}
+
+.message {
+	padding: .5em;
+	border: 1px solid;
+}
+
+.message--error {
+	border-color: #660000;
+	background-color: #DD0000;
+	color: #660000;
 }

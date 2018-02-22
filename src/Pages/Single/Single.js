@@ -6,7 +6,7 @@ import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
 
 const Home = ({ bookmarklet }) => (
 	<div className="container">
-		<Loader condition={bookmarklet && bookmarklet.length <= 0} />
+		<Loader condition={!bookmarklet} />
 
 		{bookmarklet && (
 			<div>

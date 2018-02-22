@@ -4,7 +4,7 @@ import Loader from '../../Components/Loader/Loader';
 
 const Home = ({ bookmarklets }) => (
 	<div className="container">
-		<Loader condition={bookmarklets && bookmarklets.length <= 0} />
+		<Loader condition={!bookmarklets || bookmarklets.length <= 0} />
 
 		{bookmarklets && bookmarklets.length > 0 && bookmarklets.map(bookmarklet => (
 			<BookmarkletCard key={bookmarklet.id} {...{bookmarklet}} />
