@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import firebase from 'firebase';
+import Loader from '../../Components/Loader/Loader';
+import Message from '../../Components/Message/Message';
+import { auth } from '../../Utils/firebase';
 import { withRouter } from 'react-router';
 
 import './Login.css';
@@ -11,8 +13,18 @@ class Login extends Component {
 		email: '',
 		password: '',
 		error: false,
-		errorMessage: ''
+		errorMessage: '',
+		isFetching: false
 	};
+
+	componentWillMount() {
+		auth.onAuthStateChanged(user => {
+			if(user) {
+				this.props.history.push('/', { message: 'You alredy logged in' });
+			}
+		})
+
+	}
 
 	submitHandler = e => {
 		e.preventDefault();
@@ -22,10 +34,11 @@ class Login extends Component {
 
 		this.setState({
 			error: false,
-			errorMessage: ''
+			errorMessage: '',
+			isFetching: true
 		});
 
-		firebase.auth().signInWithEmailAndPassword(email, password)
+		auth.signInWithEmailAndPassword(email, password)
 			.then(login => {
 				history.push('/', { message: `🤓 Login on ${email}` });
 			})
@@ -34,7 +47,8 @@ class Login extends Component {
 
 				this.setState({
 					error: true,
-					errorMessage: err.message
+					errorMessage: err.message,
+					isFetching: false
 				});
 			})
 	};
@@ -52,13 +66,13 @@ class Login extends Component {
 	};
 
 	render() {
-		const { error, errorMessage } = this.state;
+		const { error, errorMessage, isFetching } = this.state;
 
 		return (
 			<div className="container app-login">
 				<h1>Sign in to Bookmarklet Repository</h1>
 
-				{ error  && (<p className="message message--error">{errorMessage}</p>)}
+				{ error && (<Message message={errorMessage} type="error" />)}
 
 				<div className="form">
 					<form onSubmit={this.submitHandler}>
@@ -78,7 +92,8 @@ class Login extends Component {
 							onChange={this.changePass}
 						/>
 						<br />
-						<RaisedButton label="Sign in" primary={true} type="submit" style={{marginTop: '30px'}} />
+						<Loader condition={isFetching} />
+						<RaisedButton label="Sign in" primary={true} type="submit" style={{marginTop: '30px'}} disabled={isFetching} />
 					</form>
 				</div>
 			</div>

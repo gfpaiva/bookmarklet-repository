@@ -39,3 +39,9 @@ a {
 	background-color: #DD0000;
 	color: #660000;
 }
+
+.message--warning {
+	border-color: #ab9f02;
+	background-color: #ddcc00;
+	color: #ab9f02;
+}
