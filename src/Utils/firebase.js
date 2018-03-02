@@ -15,4 +15,6 @@ const db = firebase.database().ref('/bookmarklets');
 
 export const auth = firebase.auth();
 
+export const storage = firebase.storage().ref('usage/');
+
 export default db;

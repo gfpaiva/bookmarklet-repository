@@ -6,6 +6,7 @@ import Header from './Components/Header/Header';
 import Home from './Pages/Home/Home';
 import Single from './Pages/Single/Single';
 import Login from './Pages/Login/Login';
+import Register from './Pages/Register/Register';
 
 class App extends Component {
 	state = {
@@ -47,6 +48,8 @@ class App extends Component {
 					}} />
 
 					<Route exact path="/login" component={Login}/>
+
+					<Route exact path="/add" component={Register}/>
 
 					<Route render={() => (<h1 style={{textAlign: 'center'}}>Page not foud <span role="img" aria-label="Neutral Face">😐</span></h1>)} />
 				</Switch>

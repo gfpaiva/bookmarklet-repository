@@ -1,0 +1,11 @@
+.actual-file {
+	display: inline-block;
+	background-color: #ededed;
+	margin: 20px 0;
+	padding: 1em;
+}
+
+.actual-file__image {
+	height: auto;
+	width: 300px;
+}
