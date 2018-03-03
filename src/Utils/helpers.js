@@ -13,4 +13,4 @@ export const firebaseToArray = data => {
 	return arrayData;
 };
 
-export const codeIdent = str => str.replace(/(\s\t)/gmi, '<br />$1').replace(/\t/gmi, '&nbsp;&nbsp;&nbsp;&nbsp;');
+export const codeIdent = str => str.replace(/(\s\t)/gmi, '<br />$1').replace(/\t/gmi, '&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\n/gmi, '<br />');

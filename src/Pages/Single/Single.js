@@ -36,7 +36,7 @@ const Home = ({ bookmarklet }) => (
 
 				<div>
 					<h3>Usage</h3>
-					<p>CALMA</p>
+					<img src={bookmarklet.usage} alt={bookmarklet.title} title={bookmarklet.title} />
 				</div>
 			</div>
 		)}
