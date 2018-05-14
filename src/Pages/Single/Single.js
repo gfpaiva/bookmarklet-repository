@@ -1,8 +1,11 @@
 import React from 'react';
-import { codeIdent } from '../../Utils/helpers';
 import Loader from '../../Components/Loader/Loader';
-import IconButton from 'material-ui/IconButton';
-import ContentContentCopy from 'material-ui/svg-icons/content/content-copy';
+
+import AceEditor from 'react-ace';
+import 'brace/mode/javascript';
+import 'brace/theme/monokai';
+
+import CopyButton from '../../Components/CopyButton/CopyButton';
 
 const Home = ({ bookmarklet }) => (
 	<div className="container">
@@ -17,26 +20,27 @@ const Home = ({ bookmarklet }) => (
 				<div>
 					<h3>Bookmarklet</h3>
 					<code ref={code => { this.codeText = code }}>{bookmarklet.code}</code>
-					<div>
-						<IconButton tooltip={`Copy Bookmarklet "${bookmarklet.title}"`}>
-							<ContentContentCopy />
-						</IconButton>
-					</div>
+					<CopyButton title={bookmarklet.title} code={bookmarklet.code} />
 				</div>
 
 				<div>
 					<h3>Source</h3>
-					<p className="code" dangerouslySetInnerHTML={{__html: codeIdent(bookmarklet.script)}} ref={source => { this.sourceText = source }}></p>
-					<div>
-						<IconButton tooltip={`Copy Source "${bookmarklet.title}"`}>
-							<ContentContentCopy />
-						</IconButton>
-					</div>
+					<AceEditor
+						maxLines = {Infinity}
+						mode = "javascript"
+						name = "bookmarklet-source-code-editor"
+						readOnly = {true}
+						showPrintMargin = {false}
+						theme = "monokai"
+						value = {bookmarklet.script}
+						width ="100%"
+					/>
+					<CopyButton title={bookmarklet.title} code={bookmarklet.script} />
 				</div>
 
 				<div>
 					<h3>Usage</h3>
-					<img src={bookmarklet.usage} alt={bookmarklet.title} title={bookmarklet.title} />
+					<img src={bookmarklet.usage} alt={bookmarklet.title} title={bookmarklet.title} className="full-width" />
 				</div>
 			</div>
 		)}

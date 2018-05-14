@@ -19,11 +19,8 @@ class Login extends Component {
 
 	componentWillMount() {
 		auth.onAuthStateChanged(user => {
-			if(user) {
-				this.props.history.push('/', { message: 'You alredy logged in' });
-			}
-		})
-
+			if(user)this.props.history.push('/', { message: `🤓 Logged with: ${user.email}` });
+		});
 	}
 
 	submitHandler = e => {
@@ -40,10 +37,10 @@ class Login extends Component {
 
 		auth.signInWithEmailAndPassword(email, password)
 			.then(login => {
-				history.push('/', { message: `🤓 Login on ${email}` });
+				history.push('/', { message: `🤓 Logged with: ${email}` });
 			})
 			.catch(err => {
-				console.error('FB LOGIN ERROR', err);
+				console.error('FireBase LOGIN ERROR', err);
 
 				this.setState({
 					error: true,

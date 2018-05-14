@@ -14,8 +14,7 @@ class App extends Component {
 	};
 
 	componentDidMount() {
-		db.once('value')
-		.then(snapshot => {
+		db.on('value', snapshot => {
 			this.setState({
 				bookmarklets: firebaseToArray(snapshot.val())
 			});
@@ -30,15 +29,11 @@ class App extends Component {
 				<Header />
 				<Switch>
 					<Route exact path="/" render={() => (
-						<Home
-							{...{bookmarklets}}
-						/>
+						<Home {...{bookmarklets}} />
 					)} />
 
 					<Route exact path="/bookmarklet/:id" render={({ match }) => {
 						const bookmarklet = this.state.bookmarklets.find(bookmarklets => bookmarklets.id === match.params.id);
-
-						console.log(bookmarklet);
 
 						return (
 							<Single

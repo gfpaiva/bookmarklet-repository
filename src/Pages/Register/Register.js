@@ -3,10 +3,19 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FileAttachment from 'material-ui/svg-icons/file/attachment';
 import ContentSave from 'material-ui/svg-icons/content/save';
-import db, { storage } from '../../Utils/firebase';
 import LinearProgress from 'material-ui/LinearProgress';
-import Message from '../../Components/Message/Message';
+
+import db, { storage, auth } from '../../Utils/firebase';
+
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
+
+import AceEditor from 'react-ace';
+import 'brace/mode/javascript';
+import 'brace/theme/monokai';
+
+import Loader from '../../Components/Loader/Loader';
+import Message from '../../Components/Message/Message';
 
 import './Register.css';
 
@@ -18,12 +27,28 @@ class Register extends Component {
 		isFetching: false,
 		progress: 0,
 		title: '',
-		script: '',
-		code: ''
+		script: '/* Source Code */',
+		code: '',
+		logged: false,
+		checkUser: true
 	};
 
-	// componentWillMount() {
-	// }
+	componentWillMount() {
+		auth.onAuthStateChanged(user => {
+			if(user) {
+				this.setState(() => ({
+					logged: true,
+					checkUser: false
+				}));
+			} else {
+				this.setState(() => ({
+					logged: false,
+					checkUser: false
+				}));
+			}
+		})
+
+	}
 
 	submitHandler = e => {
 		e.preventDefault();
@@ -120,8 +145,42 @@ class Register extends Component {
 		}))
 	};
 
+	changeScript = value => {
+
+		this.setState(() => ({
+			script: value
+		}));
+	}
+
+	cleanInitialScript = () => {
+
+		if ( this.state.script === '/* Source Code */' ) return this.setState(() => ({ script: '' }));
+	}
+
+	setInitialScript = () => {
+
+		if ( this.state.script === '' ) return this.setState(() => ({ script: '/* Source Code */' }));
+	}
+
 	render() {
-		const { error, errorMessage, isFetching, file, progress } = this.state;
+		const { error, errorMessage, isFetching, file, progress, logged, checkUser } = this.state;
+
+		if (checkUser) {
+			return (
+				<div>
+					<Loader condition={true} />
+				</div>
+			)
+		}
+
+		if (!checkUser && !logged) {
+			return (
+				<div className="container">
+					<p>You must log in to view this page</p>
+					<Link to="/login">Login Here!</Link>
+				</div>
+			)
+		};
 
 		return (
 			<div className="container">
@@ -143,15 +202,16 @@ class Register extends Component {
 
 						<br />
 
-						<TextField
-							floatingLabelText="Source Code"
-							multiLine={true}
-							rows={10}
-							required="required"
-							onChange={this.changeText}
-							name="script"
-							fullWidth={true}
-							value={this.state.script}
+						<AceEditor
+							mode = "javascript"
+							name = "bookmarklet-source-code-editor"
+							showPrintMargin = {false}
+							theme = "monokai"
+							width = "100%"
+							onChange = {this.changeScript}
+							value = {this.state.script}
+							onFocus = { this.cleanInitialScript }
+							onBlur = { this.setInitialScript }
 						/>
 
 						<br />

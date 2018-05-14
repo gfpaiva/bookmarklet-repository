@@ -17,4 +17,6 @@ export const auth = firebase.auth();
 
 export const storage = firebase.storage().ref('usage/');
 
+export const currentUser = firebase.auth().currentUser;
+
 export default db;

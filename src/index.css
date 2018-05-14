@@ -45,3 +45,8 @@ a {
 	background-color: #ddcc00;
 	color: #ab9f02;
 }
+
+img.full-width {
+	max-width: 100%;
+	height: auto;
+}
